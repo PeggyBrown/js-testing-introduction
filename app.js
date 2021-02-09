@@ -1,5 +1,7 @@
 const { checkAndGenerate, createElement } = require('./util');
 
+var picker = new Pikaday({ field: document.getElementById('datepicker') });
+
 const initApp = () => {
   // Initializes the app, registers the button click listener
   const newUserButton = document.querySelector('#btnAddUser');
