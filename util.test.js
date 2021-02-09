@@ -14,18 +14,21 @@ test('should generate a valid text output', () => {
 
 test('should create correct element with text in the browser', async () => {
     const browser = await puppeteer.launch({
-        headless: true,
-        // slowMo: 40,
-        // args: ["--windows-size=1920,1080"]
+        headless: false,
+        slowMo: 10,
+        args: ["--windows-size=1920,1080"]
     });
 
     const page = await browser.newPage();
     await page.goto('file:///Users/aleksandrakunysz/Documents/Szkoła Testów/js-testing-introduction/index.html');
     await page.click("input#name");
     await page.type("input#name", "Ania");
-    await page.click("input#age");
-    await page.type("input#age", "23");
+    await page.waitForSelector("input#birth");
+    await page.click("input#birth");
+    await page.type("input#birth", "Mon Sep 10 2018");
+    await page.keyboard.press('Enter');
     await page.click("#btnAddUser");
+    await page.waitForSelector(".user-item");
     const finalText = await page.$eval('.user-item', el => el.textContent);
-    expect(finalText).toBe("Ania (23 years old)");
+    expect(finalText).toBe("Ania (3 years old)");
 });
